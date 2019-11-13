@@ -243,7 +243,7 @@ static u32 bbr_min_rtt_win_sec = 10;
 /* Minimum time (in ms) spent at bbr_cwnd_min_target in BBR_PROBE_RTT mode.
  * Max allowed value is 511 (0x1FF).
  */
-static u32 bbr_probe_rtt_mode_ms = 200;
+static u32 bbr_probe_rtt_mode_ms = 160;
 /* Window length of probe_rtt_min_us filter (in ms), and consequently the
  * typical interval between PROBE_RTT mode entries.
  * Note that bbr_probe_rtt_win_ms must be <= bbr_min_rtt_win_sec * MSEC_PER_SEC
@@ -270,7 +270,7 @@ static const int bbr_pacing_margin_percent = 1;
  * and send the same number of packets per RTT that an un-paced, slow-starting
  * Reno or CUBIC flow would. Max allowed value is 2047 (0x7FF).
  */
-static int bbr_high_gain  = BBR_UNIT * 2885 / 1000 + 1;
+static int bbr_high_gain  = BBR_UNIT * 3000 / 1000 + 1;
 /* The gain for deriving startup cwnd. Max allowed value is 2047 (0x7FF). */
 static int bbr_startup_cwnd_gain  = BBR_UNIT * 2885 / 1000 + 1;
 /* The pacing gain of 1/high_gain in BBR_DRAIN is calculated to typically drain
@@ -2432,7 +2432,7 @@ static void bbr_set_state(struct sock *sk, u8 new_state)
 
 static struct tcp_congestion_ops tcp_bbr_cong_ops __read_mostly = {
 	.flags		= TCP_CONG_NON_RESTRICTED | TCP_CONG_WANTS_CE_EVENTS,
-	.name		= "bbr2",
+	.name		= "bbr2_ppx",
 	.owner		= THIS_MODULE,
 	.init		= bbr_init,
 	.cong_control	= bbr_main,
